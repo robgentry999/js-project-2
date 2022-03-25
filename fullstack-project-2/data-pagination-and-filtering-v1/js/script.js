@@ -12,56 +12,38 @@ For assistance:
 */
 
 const maxStudents = 9;
-//creates elements 
-function createElement(ele, attribute, value) {
-   const pageElement = document.createElement(ele);
-   pageElement[attribute] = value;
-   console.log(pageElement);
-   return pageElement;
-};
+const listStudents = document.querySelector(".student-list");     
+const linkList = document.querySelector(".link-list");
 /*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
+Function takes 2 items, list and page
+Creates 9 item pages and inserts data
 */
 
-
-//makes the max items per page
-function showPage(list, page) {
-//start and end index variables 0 and 9
+function showPage (list, page) {
    const startIndex = (page * maxStudents) - maxStudents;
-   const endIndex = page * maxStudents;
-
-   const ul = document.querySelector('.student-list');
-   ul.innerHTML = '';
-   //for each data item, creates elements for each item
-   for (let i = 0; i < list.length; i++) {
-      if (i >= startIndex && i < endIndex) {
-         const dataName = list[i].name;
-         const dataEmail = list[i].email;
-         const dataPicture = list[i].picture;   
-         const newDiv = createElement('div', 'className', 'student-details');
-         const li = createElement('li', 'className', 'student-item cf');
-         const picture = createElement('img', 'className', 'avatar');
-         picture.src = dataPicture.thumbnail;
-         const newH3 = createElement('h3')
-         newH3.textContent = `${dataName.first} ${dataName.last}`;
-         const firstSpan = createElement('span', 'className', 'email');
-         firstSpan.textContent = dataEmail;
-         const newDiv2 = createElement('div', 'className', 'joined-details');
-         const secondSpan = createElement('span', 'className', 'date');
-
-//appending the created html to the new div and to the html page
-         newDiv.appendChild(picture)
-         newDiv.appendChild(newH3)
-         newDiv.appendChild(firstSpan);
-         newDiv2.appendChild(secondSpan);
-         li.appendChild(newDiv)
-         li.appendChild(newDiv2)
-         ul.appendChild(li)
-      }
+   const endIndex = (page * maxStudents);
+   listStudents.innerHTML = '';
+for( let i = 0; i < list.length; i++) {
+   if (i >=startIndex && i < endIndex){
+   //this will be added to the html using insert adjacent html
+    studentList =`
+   <li class="student-item cf">
+      <div class="student-details">
+        <img class="avatar" src="${list[i].picture.large}" alt="Profile Picture">
+       <h3>${list[i].name.title} ${list[i].name.first} ${list[i].name.last}</h3>
+       <span class="email">${list[i].email}</span>
+      </div>
+       <div class="joined-details">
+         <span class="date">Joined ${list[i].registered.date}</span>
+       </div>
+    </li> `;
+   
+listStudents.insertAdjacentHTML('beforeend',studentList)
    }
 }
-
+}
 
 /*
 Create the `addPagination` function
